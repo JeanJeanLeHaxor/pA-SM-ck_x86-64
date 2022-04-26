@@ -10,7 +10,17 @@ _start:
     call    setup_heap
 
     call    allocated_space
+    call    mprotect
 
+    mov     rax, [rbp - 0x8]
+    mov     BYTE [rax], 0x41
+
+    mov     rsi, rax
+    mov     rax, 0x1
+    mov     rdi, 0x1
+    mov     rdx, 0x1    
+    syscall
+    
     call    clear_heap
     mov     rax, 0
 
@@ -36,6 +46,13 @@ clear_heap:
     mov     rdi, [rbp - 0x8]
     syscall
     ret
+
+mprotect:
+    mov     rax, 0xa
+    mov     rdi, [rbp - 0x8]
+    mov     rsi, 0x1000
+    mov     rdx, 0x3
+    syscall
 
 _exit:
     pop rsp
