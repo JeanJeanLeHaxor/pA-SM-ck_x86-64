@@ -3,8 +3,8 @@ global _start
 section .text
 
 _start:
+    mov     rbp, rsp
     push    rbp
-    mov     rsp, rbp
     sub     rsp, 0x8
 
     call    setup_heap
@@ -13,7 +13,9 @@ _start:
 
     call    clear_heap
     mov     rax, 0
-    ret
+
+    pop rsp
+    call _exit
 
 setup_heap:
     mov     rax, 0xc
@@ -34,6 +36,11 @@ clear_heap:
     mov     rdi, [rbp - 0x8]
     syscall
     ret
+
+_exit:
+    mov     rax, 0x3c
+    mov     rdi, 0x0
+    syscall
 
 section .data
     payload: db "SALUT"
