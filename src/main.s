@@ -1,3 +1,22 @@
+; ----------------[  Macros  ]---------------- ;
+
+%macro      brk  1
+    mov     rax, 0xc
+    mov     rdi, [rbp - 0x8]
+    add     rdi, %1
+    syscall 
+%endmacro
+
+%macro      mprotect  3
+    mov     rax, 0xa
+    mov     rdi, %1 ; start address
+    mov     rsi, %2 ; size of mprotect
+    mov     rdx, %3 ; prot flags
+    syscall
+%endmacro
+
+; -------------------------------------------- ;
+
 global _start
 
 section .text
@@ -8,9 +27,9 @@ _start:
     sub     rsp, 0x8
 
     call    setup_heap
-
     call    allocated_space
-    call    mprotect
+
+    mprotect [rbp - 0x8], 0x1000, 0x7
 
     mov     rax, [rbp - 0x8]
     mov     BYTE [rax], 0x41
@@ -30,15 +49,11 @@ setup_heap:
     mov     rax, 0xc
     mov     rdi, 0x0
     syscall                     ; brk(NULL)
-
     mov     [rbp - 0x8], rax    ; save the heap start point
     ret
 
 allocated_space:
-    mov     rax, 0xc
-    mov     rdi, [rbp - 0x8]
-    add     rdi, 0x20
-    syscall
+    brk 0x100                   ; brk(heapStart + rdi) -> Allocate rdi on the heap
     ret
 
 clear_heap:
@@ -47,15 +62,15 @@ clear_heap:
     syscall
     ret
 
-mprotect:
-    mov     rax, 0xa
-    mov     rdi, [rbp - 0x8]
-    mov     rsi, 0x1000
-    mov     rdx, 0x1
-    or      rdx, 0x2
-    or      rdx, 0x4
-    syscall
-    ret
+;mprotect:
+;    mov     rax, 0xa
+;    mov     rdi, [rbp - 0x8]
+;    mov     rsi, 0x1000
+;    mov     rdx, 0x1
+;    or      rdx, 0x2
+;    or      rdx, 0x4
+;    syscall
+;    ret
 
 _exit:
     pop rsp
