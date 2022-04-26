@@ -51,7 +51,9 @@ mprotect:
     mov     rax, 0xa
     mov     rdi, [rbp - 0x8]
     mov     rsi, 0x1000
-    mov     rdx, 0x3
+    mov     rdx, 0x1
+    or      rdx, 0x2
+    or      rdx, 0x3
     syscall
 
 _exit:
