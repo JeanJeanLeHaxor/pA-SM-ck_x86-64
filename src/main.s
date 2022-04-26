@@ -26,7 +26,7 @@ setup_heap:
 
 allocated_space:
     mov     rax, 0xc
-    mov     rdi, [rbb - 0x8]
+    mov     rdi, [rbp - 0x8]
     add     rdi, 0x20
     syscall
     ret
