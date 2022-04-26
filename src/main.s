@@ -55,6 +55,7 @@ mprotect:
     or      rdx, 0x2
     or      rdx, 0x4
     syscall
+    ret
 
 _exit:
     pop rsp
