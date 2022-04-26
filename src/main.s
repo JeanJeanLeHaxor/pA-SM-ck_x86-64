@@ -14,7 +14,6 @@ _start:
     call    clear_heap
     mov     rax, 0
 
-    pop rsp
     call _exit
 
 setup_heap:
@@ -27,7 +26,8 @@ setup_heap:
 
 allocated_space:
     mov     rax, 0xc
-    mov     rdi, 0x20
+    mov     rdi, [rpb - 0x8]
+    add     rdi, 0x20
     syscall
     ret
 
@@ -38,6 +38,7 @@ clear_heap:
     ret
 
 _exit:
+    pop rsp
     mov     rax, 0x3c
     mov     rdi, 0x0
     syscall
