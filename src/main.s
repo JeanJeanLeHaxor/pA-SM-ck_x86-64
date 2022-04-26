@@ -53,7 +53,7 @@ mprotect:
     mov     rsi, 0x1000
     mov     rdx, 0x1
     or      rdx, 0x2
-    or      rdx, 0x3
+    or      rdx, 0x4
     syscall
 
 _exit:
