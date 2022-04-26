@@ -1,0 +1,4 @@
+*.o
+peda-session*
+a.out
+.gdb_history
