@@ -9,7 +9,7 @@ NAME = pA-SM-ck_x86-64
 AS  = nasm
 ASFLAGS = -f elf64
 
-LD= gcc -m64 -no-pie
+LD= gcc -m64 -no-pie -nostdlib
 
 all: $(SOURCES) $(NAME)
 
