@@ -18,9 +18,10 @@ _start:
 
 
 error_arg:
-    pop rsi
+    lea rsi, miss_arg
     mov rax, 0x1
-    mov rdi, 0x1e
+    mov rdi, 0x1
+    mov rdx, 0x1e
     syscall
 
 _exit
