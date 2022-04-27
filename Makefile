@@ -1,4 +1,4 @@
-SOURCES=$(wildcard src/*.s)
+SOURCES= src/main.s#$(wildcard src/*.s)
 
 OBJECTS=$(SOURCES:.s=.o)
 
