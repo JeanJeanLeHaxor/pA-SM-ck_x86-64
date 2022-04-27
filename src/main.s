@@ -21,7 +21,7 @@ _start:
 
 
 error_arg:
-    lea rsi, miss_arg
+    lea rsi, [miss_arg]
     mov rax, 0x1
     mov rdi, 0x1
     mov rdx, len_miss_arg
