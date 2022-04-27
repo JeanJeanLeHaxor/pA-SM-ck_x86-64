@@ -1,9 +1,9 @@
 ; ----------------[  Macros  ]---------------- ;
 
-%macro      brk  1
+%macro      brk 2
     mov     rax, 0xc
-    mov     rdi, [rbp - 0x8]
-    add     rdi, %1
+    mov     rdi, %1
+    add     rdi, %2
     syscall 
 %endmacro
 
@@ -39,21 +39,19 @@ _start:
     mov     rdi, 0x1
     mov     rdx, 0x1    
     syscall
-    
+
     call    clear_heap
     mov     rax, 0
 
     call _exit
 
 setup_heap:
-    mov     rax, 0xc
-    mov     rdi, 0x0
-    syscall                     ; brk(NULL)
+    brk     0x0, 0x0
     mov     [rbp - 0x8], rax    ; save the heap start point
     ret
 
 allocated_space:
-    brk 0x100                   ; brk(heapStart + rdi) -> Allocate rdi on the heap
+    brk     [rbp - 0x8], 0x100                   ; brk(heapStart + rdi) -> Allocate rdi on the heap
     ret
 
 clear_heap:
